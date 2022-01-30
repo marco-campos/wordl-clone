@@ -2,45 +2,262 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
     <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+      Check out my <a href="https://github.com/marco-campos" target="_blank" rel="noopener">github</a> for the code. Credit for the dictionary data: <a href="https://gist.github.com/BideoWego/60fbd40d5d1f0f1beca11ba95221dd38">
+BideoWego</a>. Check out <a href="https://www.powerlanguage.co.uk/wordle/">Wordle</a> for the inspiration to the project.</p>
+    <!-- For testing purposes the following line gives us the word -->
+    <!-- <p>Random word: {{randomWord}}</p> -->
+    <p v-if="!helpDisplay"><a @click="toggleHelp">Click Here</a> For instructions for how to play</p>
+    <div v-if="helpDisplay" class="help">Guess the WORDLE in 6 tries. <br>
+
+Each guess must be a valid 5 letter word. Hit the enter button to submit.
+<br>
+After each guess, the color of the tiles will change to show how close your guess was to the word. <a @click="toggleHelp">Click here to close</a> 
+</div>
+    <p v-if="showDefintion">Definition: {{wordBank[randomWordKey]}}</p>
+  <div class="grid-container">
+    <div class="grid-item" id="cell1">{{rowOne[0]}}</div>
+    <div class="grid-item" id="cell2">{{rowOne[1]}}</div>
+    <div class="grid-item" id="cell3">{{rowOne[2]}}</div>
+    <div class="grid-item" id="cell4">{{rowOne[3]}}</div>
+    <div class="grid-item" id="cell5">{{rowOne[4]}}</div>
+    
+    <div class="grid-item" id="cell6">{{rowTwo[0]}}</div>
+    <div class="grid-item" id="cell7">{{rowTwo[1]}}</div>
+    <div class="grid-item" id="cell8">{{rowTwo[2]}}</div>
+    <div class="grid-item" id="cell9">{{rowTwo[3]}}</div>
+    <div class="grid-item" id="cell10">{{rowTwo[4]}}</div>
+
+    <div class="grid-item" id="cell11">{{rowThree[0]}}</div>
+    <div class="grid-item" id="cell12">{{rowThree[1]}}</div>
+    <div class="grid-item" id="cell13">{{rowThree[2]}}</div>
+    <div class="grid-item" id="cell14">{{rowThree[3]}}</div>
+    <div class="grid-item" id="cell15">{{rowThree[4]}}</div>
+
+    <div class="grid-item" id="cell16">{{rowFour[0]}}</div>
+    <div class="grid-item" id="cell17">{{rowFour[1]}}</div>
+    <div class="grid-item" id="cell18">{{rowFour[2]}}</div>
+    <div class="grid-item" id="cell19">{{rowFour[3]}}</div>
+    <div class="grid-item" id="cell20">{{rowFour[4]}}</div>
+
+    <div class="grid-item" id="cell21">{{rowFive[0]}}</div>
+    <div class="grid-item" id="cell22">{{rowFive[1]}}</div>
+    <div class="grid-item" id="cell23">{{rowFive[2]}}</div>
+    <div class="grid-item" id="cell24">{{rowFive[3]}}</div>
+    <div class="grid-item" id="cell25">{{rowFive[4]}}</div>
+
+    <div class="grid-item" id="cell26">{{rowSix[0]}}</div>
+    <div class="grid-item" id="cell27">{{rowSix[1]}}</div>
+    <div class="grid-item" id="cell28">{{rowSix[2]}}</div>
+    <div class="grid-item" id="cell29">{{rowSix[3]}}</div>
+    <div class="grid-item" id="cell10">{{rowSix[4]}}</div>
+  </div>
+
+  <div class="keyboard">
+    <div class="row1">
+      <div @click="keyboardButtonPressed" class="keyboard-item" id="Q">Q</div>
+      <div class="keyboard-item" @click="keyboardButtonPressed" id="W">W</div>
+      <div class="keyboard-item" @click="keyboardButtonPressed" id="E">E</div>
+      <div class="keyboard-item" @click="keyboardButtonPressed" id="R">R</div>
+      <div class="keyboard-item" @click="keyboardButtonPressed" id="T">T</div>
+      <div class="keyboard-item" @click="keyboardButtonPressed" id="Y">Y</div>
+      <div class="keyboard-item" @click="keyboardButtonPressed" id="U">U</div>
+      <div class="keyboard-item" @click="keyboardButtonPressed" id="I">I</div>
+      <div class="keyboard-item" @click="keyboardButtonPressed" id="O">O</div>
+      <div class="keyboard-item" @click="keyboardButtonPressed" id="P">P</div>
+    </div>
+    
+    <div class ="row2">
+      <div class="keyboard-item" @click="keyboardButtonPressed" id="A">A</div>
+      <div class="keyboard-item" @click="keyboardButtonPressed" id="S">S</div>
+      <div class="keyboard-item" @click="keyboardButtonPressed" id="D">D</div>
+      <div class="keyboard-item" @click="keyboardButtonPressed" id="F">F</div>
+      <div class="keyboard-item" @click="keyboardButtonPressed" id="G">G</div>
+      <div class="keyboard-item" @click="keyboardButtonPressed" id="H">H</div>
+      <div class="keyboard-item" @click="keyboardButtonPressed" id="J">J</div>
+      <div class="keyboard-item" @click="keyboardButtonPressed" id="K">K</div>
+      <div class="keyboard-item" @click="keyboardButtonPressed" id="L">L</div>
+    </div>
+    
+    <div class="row3">
+      <div class="keyboard-item" @click="checkWord">Enter</div>
+      <div class="keyboard-item" @click="keyboardButtonPressed" id="Z">Z</div>
+      <div class="keyboard-item" @click="keyboardButtonPressed" id="X">X</div>
+      <div class="keyboard-item" @click="keyboardButtonPressed" id="C">C</div>
+      <div class="keyboard-item" @click="keyboardButtonPressed" id="V">V</div>
+      <div class="keyboard-item" @click="keyboardButtonPressed" id="B">B</div>
+      <div class="keyboard-item" @click="keyboardButtonPressed" id="N">N</div>
+      <div class="keyboard-item" @click="keyboardButtonPressed" id="M">M</div>
+      <div class="keyboard-item" @click="backspaceButton" id="backspace">Backspace</div>
+    </div>
+    
+  </div>
+    
+    
   </div>
 </template>
 
 <script>
+import json from './fiveLetterWords.json'
 export default {
   name: 'HelloWorld',
   props: {
     msg: String
-  }
+  },
+  data(){
+    return {
+      rowOne: [],
+      rowTwo: [],
+      rowThree: [],
+      rowFour: [],
+      rowFive: [],
+      rowSix:[],
+      currentRow: 1,
+      currentColumn: 1,
+      wordBank: json,
+      randomWord: null,
+      showDefintion:false,
+      randomWordKey: null,
+      playerWon: false,
+      helpDisplay: false
+    }
+  },
+  mounted(){
+    this.getRandomWord()
+    
+  },
+  methods:{
+    toggleHelp(){
+      this.helpDisplay = !this.helpDisplay
+    },
+    checkRow(){
+      let row = null
+      switch(this.currentRow){
+        case 1:
+          row = this.rowOne
+          break
+        case 2:
+          row = this.rowTwo
+          break
+        case 3:
+          row = this.rowThree
+          break
+        case 4:
+          row = this.rowFour
+          break
+        case 5:
+          row = this.rowFive
+          break
+        case 6:
+          row = this.rowSix
+          break
+      }
+      return row
+    },
+    checkWord(){
+      let row = this.checkRow()
+      console.log(row)
+      if (row.length !== 5){
+        alert("Word is not long enough")
+      } else {
+        let answer = ""
+        for (let i = 0; i < row.length; i++){
+          answer += row[i]
+        }
+        if (answer === this.randomWord){
+          alert("You win!")
+          this.playerWon = true
+          this.showDefintion = true
+          for (let i = 0; i < row.length; i++){
+                if (row[i] === this.randomWord[i]){
+
+                  let index = ((i+1)+(this.currentRow-1)*5).toString()
+                  console.log("Index is: " + index)
+                  let cellselected = "cell" + index
+                  const correctCell = document.getElementById(cellselected)
+                  console.log(cellselected)
+                  correctCell.style["background-color"] = "rgb(102, 255, 153)"
+                  console.log("The " + index + " letter is correct")
+                }}
+          
+        } else{
+          if (this.currentRow ===6){
+            alert("You lost :(")
+          } else{
+            answer = answer.toLowerCase()
+            if (!Object.prototype.hasOwnProperty.call(this.wordBank, answer)){
+              alert("Word is not in our word bank")
+            }
+            else{
+                for (let i = 0; i < row.length; i++){
+                if (row[i] === this.randomWord[i]){
+
+                  let index = ((i+1)+(this.currentRow-1)*5).toString()
+                  console.log("Index is: " + index)
+                  let cellselected = "cell" + index
+                  const correctCell = document.getElementById(cellselected)
+                  console.log(cellselected)
+                  correctCell.style["background-color"] = "rgb(102, 255, 153)"
+                  console.log("The " + index + " letter is correct")
+                } else if (this.randomWord.includes(row[i]) && row[i] !== this.randomWord[i]){
+                  let index = ((i+1)+(this.currentRow-1)*5).toString()
+                  console.log("Index is: " + index)
+                  let cellselected = "cell" + index
+                  const correctCell = document.getElementById(cellselected)
+                  console.log(cellselected)
+                  correctCell.style["background-color"] = "rgb(255, 255, 153)"
+                  console.log("The " + index + " letter is almost correct")
+                }
+              }
+              alert("Word is not correct")
+              this.currentRow += 1
+              this.currentColumn =1
+            }
+            
+          }
+        }
+      }
+    },
+    backspaceButton(){
+      let row = this.checkRow()
+      if (this.currentColumn>1){
+        row.pop()
+        console.log(row)
+        this.currentColumn -= 1
+        console.log(this.currentColumn, this.currentRow)
+      }
+    },
+    keyboardButtonPressed(e){
+      console.log(e.target.id)
+      let row= this.checkRow()
+      console.log(row)
+      console.log(this.currentColumn)
+      
+      if (this.currentColumn < 6){
+        row.push(e.target.id)
+        this.currentColumn += 1
+      } else{
+        console.log(this.playerWon)
+        if (!this.playerWon){
+          alert("Too many letters")
+        }
+        
+      }
+ 
+    },
+    getRandomWord(){
+      const values = Object.keys(this.wordBank)
+      const prop = values[Math.floor(Math.random() * values.length)]
+      this.randomWordKey = prop
+      this.randomWord = prop.toUpperCase()
+    }
+  },
+  
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
 h3 {
   margin: 40px 0 0;
 }
@@ -55,4 +272,77 @@ li {
 a {
   color: #42b983;
 }
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
+  background-color: #2196F3;
+  padding: 10px;
+  width:75%;
+  margin: 0 auto
+  
+}
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  font-size: 2rem;
+  text-align: center;
+
+}
+
+.keyboard {
+  display: grid;
+  grid-template-columns: auto ;
+  background-color: #21f391;
+  padding: 10px;
+  
+}
+.keyboard-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  font-size: 1rem;
+  text-align: center;
+}
+.row1 {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto auto auto auto auto auto ;
+  background-color: #21f391;
+  padding: 10px;
+}
+.row2 {
+  display: grid;
+  grid-template-columns:  auto auto auto auto auto auto auto auto auto ;
+  background-color: #21f391;
+  padding: 10px;
+}
+.row3 {
+  display: grid;
+  grid-template-columns:  auto auto auto auto auto auto auto auto auto ;
+  background-color: #21f391;
+  padding: 10px;
+}
+.help{
+  padding-bottom: 1rem
+}
+
+@media all and (min-width:0px) and (max-width: 650px) {
+  .keyboard {
+  display: grid;
+  grid-template-columns: auto ;
+  background-color: #21f391;
+  padding: 0;
+
+  
+}
+  .keyboard-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 0.6rem;
+  font-size: 1rem;
+  text-align: center;
+  }
+}
+
+
 </style>
