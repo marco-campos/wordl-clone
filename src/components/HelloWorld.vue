@@ -259,7 +259,7 @@ export default {
 <style scoped>
 
 h3 {
-  margin: 40px 0 0;
+  margin: 1.2rem 0 0;
 }
 ul {
   list-style-type: none;
@@ -276,7 +276,7 @@ a {
   display: grid;
   grid-template-columns: auto auto auto auto auto;
   background-color: #2196F3;
-  padding: 10px;
+  padding: 0.4rem;
   width:75%;
   margin: 0 auto
   
@@ -284,8 +284,8 @@ a {
 .grid-item {
   background-color: rgba(255, 255, 255, 0.8);
   border: 1px solid rgba(0, 0, 0, 0.8);
-  padding: 20px;
-  font-size: 2rem;
+  padding: 1.5rem;
+  font-size: 1.5rem;
   text-align: center;
 
 }
@@ -327,6 +327,28 @@ a {
 }
 
 @media all and (min-width:0px) and (max-width: 650px) {
+  html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
+  grid-template-rows: auto auto auto auto auto;
+  background-color: #2196F3;
+  padding: 0.4rem;
+  width:75%;
+  margin: 0 auto
+  
+}
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 1rem;
+  font-size: 1.5rem;
+  text-align: center;
+
+}
   .keyboard {
   display: grid;
   grid-template-columns: auto ;
@@ -338,8 +360,8 @@ a {
   .keyboard-item {
   background-color: rgba(255, 255, 255, 0.8);
   border: 1px solid rgba(0, 0, 0, 0.8);
-  padding: 0.6rem;
-  font-size: 1rem;
+  padding: 0.5rem;
+  font-size: 0.8rem;
   text-align: center;
   }
 }
