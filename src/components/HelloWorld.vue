@@ -1,11 +1,9 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <p>
-      Check out my <a href="https://github.com/marco-campos" target="_blank" rel="noopener">github</a> for the code. Credit for the dictionary data: <a href="https://gist.github.com/BideoWego/60fbd40d5d1f0f1beca11ba95221dd38">
-BideoWego</a>. Check out <a href="https://www.powerlanguage.co.uk/wordle/">Wordle</a> for the inspiration to the project.</p>
     <!-- For testing purposes the following line gives us the word -->
-   <!--<p>Random word: {{randomWord}}</p> -->
+   <!-- <p>Random word: {{randomWord}}</p> -->
+  <button class="button" @click="reloadPage" id="reload">New Word</button>
     <p v-if="!helpDisplay"><a @click="toggleHelp">Click Here</a> For instructions for how to play</p>
     <div v-if="helpDisplay" class="help">Guess the WORDLE in 6 tries. <br>
 
@@ -91,7 +89,13 @@ After each guess, the color of the tiles will change to show how close your gues
     </div>
     
   </div>
-    
+  
+    <br>
+    <footer>
+        <p class="info">
+      Check out my <a href="https://github.com/marco-campos" target="_blank" rel="noopener">github</a> for the code. Credit for the dictionary data: <a href="https://gist.github.com/BideoWego/60fbd40d5d1f0f1beca11ba95221dd38">
+BideoWego</a>. Check out <a href="https://www.powerlanguage.co.uk/wordle/">Wordle</a> for the inspiration to the project.</p>
+    </footer>
     
   </div>
 </template>
@@ -119,35 +123,6 @@ export default {
       randomWordKey: null,
       playerWon: false,
       helpDisplay: false,
-      keyboardColors:{
-        "Q":0,
-        "W":0,
-        "E":0,
-        "R":0,
-        "T":0,
-        "Y":0,
-        "U":0,
-        "I":0,
-        "O":0,
-        "P":0,
-        "A":0,
-        "S":0,
-        "D":0,
-        "F":0,
-        "G":0,
-        "H":0,
-        "J":0,
-        "K":0,
-        "L":0,
-        "Z":0,
-        "X":0,
-        "C":0,
-        "V":0,
-        "B":0,
-        "N":0,
-        "M":0,
-
-      }
     }
   },
   mounted(){
@@ -155,6 +130,9 @@ export default {
     
   },
   methods:{
+    reloadPage(){
+    window.location.reload()
+  },
     toggleHelp(){
       this.helpDisplay = !this.helpDisplay
     },
@@ -309,6 +287,44 @@ li {
 }
 a {
   color: #42b983;
+}
+.button {
+  position: relative;
+  background-color: #4CAF50;
+  border: none;
+  font-size: 1.2rem;
+  color: #FFFFFF;
+  padding: 0.5rem;
+  width: 35%;
+  text-align: center;
+  transition-duration: 0.4s;
+  text-decoration: none;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.button:after {
+  content: "";
+  background: #f1f1f1;
+  display: block;
+  position: absolute;
+  padding-top: 300%;
+  padding-left: 350%;
+  margin-left: -20px !important;
+  margin-top: -120%;
+  opacity: 0;
+  transition: all 0.8s
+}
+
+.button:active:after {
+  padding: 0;
+  margin: 0;
+  opacity: 1;
+  transition: 0s
+}
+
+.info{
+  font-size: 0.7rem
 }
 .grid-container {
   display: grid;
