@@ -5,7 +5,7 @@
       Check out my <a href="https://github.com/marco-campos" target="_blank" rel="noopener">github</a> for the code. Credit for the dictionary data: <a href="https://gist.github.com/BideoWego/60fbd40d5d1f0f1beca11ba95221dd38">
 BideoWego</a>. Check out <a href="https://www.powerlanguage.co.uk/wordle/">Wordle</a> for the inspiration to the project.</p>
     <!-- For testing purposes the following line gives us the word -->
-   <p>Random word: {{randomWord}}</p>
+   <!--<p>Random word: {{randomWord}}</p> -->
     <p v-if="!helpDisplay"><a @click="toggleHelp">Click Here</a> For instructions for how to play</p>
     <div v-if="helpDisplay" class="help">Guess the WORDLE in 6 tries. <br>
 
