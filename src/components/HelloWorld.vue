@@ -5,7 +5,7 @@
       Check out my <a href="https://github.com/marco-campos" target="_blank" rel="noopener">github</a> for the code. Credit for the dictionary data: <a href="https://gist.github.com/BideoWego/60fbd40d5d1f0f1beca11ba95221dd38">
 BideoWego</a>. Check out <a href="https://www.powerlanguage.co.uk/wordle/">Wordle</a> for the inspiration to the project.</p>
     <!-- For testing purposes the following line gives us the word -->
-    <!-- <p>Random word: {{randomWord}}</p> -->
+   <p>Random word: {{randomWord}}</p>
     <p v-if="!helpDisplay"><a @click="toggleHelp">Click Here</a> For instructions for how to play</p>
     <div v-if="helpDisplay" class="help">Guess the WORDLE in 6 tries. <br>
 
@@ -51,7 +51,7 @@ After each guess, the color of the tiles will change to show how close your gues
     <div class="grid-item" id="cell29">{{rowSix[3]}}</div>
     <div class="grid-item" id="cell10">{{rowSix[4]}}</div>
   </div>
-
+<br/>
   <div class="keyboard">
     <div class="row1">
       <div @click="keyboardButtonPressed" class="keyboard-item" id="Q">Q</div>
@@ -118,7 +118,36 @@ export default {
       showDefintion:false,
       randomWordKey: null,
       playerWon: false,
-      helpDisplay: false
+      helpDisplay: false,
+      keyboardColors:{
+        "Q":0,
+        "W":0,
+        "E":0,
+        "R":0,
+        "T":0,
+        "Y":0,
+        "U":0,
+        "I":0,
+        "O":0,
+        "P":0,
+        "A":0,
+        "S":0,
+        "D":0,
+        "F":0,
+        "G":0,
+        "H":0,
+        "J":0,
+        "K":0,
+        "L":0,
+        "Z":0,
+        "X":0,
+        "C":0,
+        "V":0,
+        "B":0,
+        "N":0,
+        "M":0,
+
+      }
     }
   },
   mounted(){
@@ -190,7 +219,7 @@ export default {
             else{
                 for (let i = 0; i < row.length; i++){
                 if (row[i] === this.randomWord[i]){
-
+                  this.colorKeyboardCorrect(row[i])
                   let index = ((i+1)+(this.currentRow-1)*5).toString()
                   console.log("Index is: " + index)
                   let cellselected = "cell" + index
@@ -199,6 +228,7 @@ export default {
                   correctCell.style["background-color"] = "rgb(102, 255, 153)"
                   console.log("The " + index + " letter is correct")
                 } else if (this.randomWord.includes(row[i]) && row[i] !== this.randomWord[i]){
+                  this.colorKeyboardAlmost(row[i])
                   let index = ((i+1)+(this.currentRow-1)*5).toString()
                   console.log("Index is: " + index)
                   let cellselected = "cell" + index
@@ -216,6 +246,14 @@ export default {
           }
         }
       }
+    },
+    colorKeyboardCorrect(letter){
+      const correctLetter = document.getElementById(letter)
+      correctLetter.style["background-color"] = "rgb(102, 255, 153)"
+    },
+    colorKeyboardAlmost(letter){
+      const correctLetter = document.getElementById(letter)
+      correctLetter.style["background-color"] = "rgb(255, 255, 153)"
     },
     backspaceButton(){
       let row = this.checkRow()
@@ -293,7 +331,7 @@ a {
 .keyboard {
   display: grid;
   grid-template-columns: auto ;
-  background-color: #21f391;
+  background-color: #2196F3;
   padding: 10px;
   
 }
@@ -307,19 +345,19 @@ a {
 .row1 {
   display: grid;
   grid-template-columns: auto auto auto auto auto auto auto auto auto auto ;
-  background-color: #21f391;
+  background-color: #2196F3;
   padding: 10px;
 }
 .row2 {
   display: grid;
   grid-template-columns:  auto auto auto auto auto auto auto auto auto ;
-  background-color: #21f391;
+  background-color: #2196F3;
   padding: 10px;
 }
 .row3 {
   display: grid;
   grid-template-columns:  auto auto auto auto auto auto auto auto auto ;
-  background-color: #21f391;
+  background-color: #2196F3;
   padding: 10px;
 }
 .help{
@@ -352,7 +390,7 @@ a {
   .keyboard {
   display: grid;
   grid-template-columns: auto ;
-  background-color: #21f391;
+  background-color: #2196F3;
   padding: 0;
 
   
