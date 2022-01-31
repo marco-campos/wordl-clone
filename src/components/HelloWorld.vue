@@ -102,6 +102,7 @@ BideoWego</a>. Check out <a href="https://www.powerlanguage.co.uk/wordle/">Wordl
 
 <script>
 import json from './fiveLetterWords.json'
+import json2 from './fourLetterWords.json'
 export default {
   name: 'HelloWorld',
   props: {
@@ -123,6 +124,7 @@ export default {
       randomWordKey: null,
       playerWon: false,
       helpDisplay: false,
+      fourWordBank: json2
     }
   },
   mounted(){
@@ -191,7 +193,7 @@ export default {
             alert("You lost :(")
           } else{
             answer = answer.toLowerCase()
-            if (!Object.prototype.hasOwnProperty.call(this.wordBank, answer)){
+            if (!Object.prototype.hasOwnProperty.call(this.wordBank, answer) && !Object.prototype.hasOwnProperty.call(this.fourWordBank, answer)){
               alert("Word is not in our word bank")
             }
             else{
