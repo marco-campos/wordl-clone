@@ -2,7 +2,7 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
     <!-- For testing purposes the following line gives us the word -->
-   <!-- <p>Random word: {{randomWord}}</p> -->
+   <p>Random word: {{randomWord}}</p>
   <button class="button" @click="reloadPage" id="reload">New Word</button>
     <p v-if="!helpDisplay"><a @click="toggleHelp">Click Here</a> For instructions for how to play</p>
     <div v-if="helpDisplay" class="help">Guess the WORDLE in 6 tries. <br>
@@ -11,7 +11,7 @@ Each guess must be a valid 5 letter word. Hit the enter button to submit.
 <br>
 After each guess, the color of the tiles will change to show how close your guess was to the word. <a @click="toggleHelp">Click here to close</a> 
 </div>
-    <p v-if="showDefintion">Definition: {{wordBank[randomWordKey]}}</p>
+    <p v-if="showDefintion">Definition: {{definition}}</p>
   <div class="grid-container">
     <div class="grid-item" id="cell1">{{rowOne[0]}}</div>
     <div class="grid-item" id="cell2">{{rowOne[1]}}</div>
@@ -102,7 +102,8 @@ BideoWego</a>. Check out <a href="https://www.powerlanguage.co.uk/wordle/">Wordl
 
 <script>
 import json from './fiveLetterWords.json'
-import json2 from './fourLetterWords.json'
+import text from './dictionaryFive.json'
+import websterFive from './websterWordsFive.json'
 export default {
   name: 'HelloWorld',
   props: {
@@ -118,13 +119,15 @@ export default {
       rowSix:[],
       currentRow: 1,
       currentColumn: 1,
-      wordBank: json,
+      wordSelection: json,
       randomWord: null,
       showDefintion:false,
       randomWordKey: null,
       playerWon: false,
       helpDisplay: false,
-      fourWordBank: json2
+      wordBank: text,
+      definitions: websterFive,
+      definition: null
     }
   },
   mounted(){
@@ -174,26 +177,23 @@ export default {
         }
         if (answer === this.randomWord){
           alert("You win!")
+          this.getDefinition()
           this.playerWon = true
           this.showDefintion = true
           for (let i = 0; i < row.length; i++){
                 if (row[i] === this.randomWord[i]){
 
                   let index = ((i+1)+(this.currentRow-1)*5).toString()
-                  console.log("Index is: " + index)
                   let cellselected = "cell" + index
                   const correctCell = document.getElementById(cellselected)
-                  console.log(cellselected)
                   correctCell.style["background-color"] = "rgb(102, 255, 153)"
-                  console.log("The " + index + " letter is correct")
                 }}
           
         } else{
           if (this.currentRow ===6){
             alert("You lost :(")
           } else{
-            answer = answer.toLowerCase()
-            if (!Object.prototype.hasOwnProperty.call(this.wordBank, answer) && !Object.prototype.hasOwnProperty.call(this.fourWordBank, answer)){
+            if (!Object.prototype.hasOwnProperty.call(this.wordBank, answer)){
               alert("Word is not in our word bank")
             }
             else{
@@ -201,21 +201,15 @@ export default {
                 if (row[i] === this.randomWord[i]){
                   this.colorKeyboardCorrect(row[i])
                   let index = ((i+1)+(this.currentRow-1)*5).toString()
-                  console.log("Index is: " + index)
                   let cellselected = "cell" + index
                   const correctCell = document.getElementById(cellselected)
-                  console.log(cellselected)
                   correctCell.style["background-color"] = "rgb(102, 255, 153)"
-                  console.log("The " + index + " letter is correct")
                 } else if (this.randomWord.includes(row[i]) && row[i] !== this.randomWord[i]){
                   this.colorKeyboardAlmost(row[i])
                   let index = ((i+1)+(this.currentRow-1)*5).toString()
-                  console.log("Index is: " + index)
                   let cellselected = "cell" + index
                   const correctCell = document.getElementById(cellselected)
-                  console.log(cellselected)
                   correctCell.style["background-color"] = "rgb(255, 255, 153)"
-                  console.log("The " + index + " letter is almost correct")
                 }
               }
               alert("Word is not correct")
@@ -224,6 +218,17 @@ export default {
             }
             
           }
+        }
+      }
+    },
+    getDefinition(){
+      const currentWord = this.randomWord.toLowerCase()
+      console.log(currentWord)
+      const defs = Object.keys(this.definitions)
+      for (let i = 0; i < defs.length; i++){
+        if (currentWord === defs[i]){
+          console.log(currentWord, defs[i])
+          this.definition = this.definitions[defs[i]]
         }
       }
     },
@@ -239,22 +244,16 @@ export default {
       let row = this.checkRow()
       if (this.currentColumn>1){
         row.pop()
-        console.log(row)
         this.currentColumn -= 1
-        console.log(this.currentColumn, this.currentRow)
       }
     },
     keyboardButtonPressed(e){
-      console.log(e.target.id)
       let row= this.checkRow()
-      console.log(row)
-      console.log(this.currentColumn)
       
       if (this.currentColumn < 6){
         row.push(e.target.id)
         this.currentColumn += 1
       } else{
-        console.log(this.playerWon)
         if (!this.playerWon){
           alert("Too many letters")
         }
@@ -263,7 +262,7 @@ export default {
  
     },
     getRandomWord(){
-      const values = Object.keys(this.wordBank)
+      const values = Object.keys(this.wordSelection)
       const prop = values[Math.floor(Math.random() * values.length)]
       this.randomWordKey = prop
       this.randomWord = prop.toUpperCase()
@@ -277,7 +276,7 @@ export default {
 <style scoped>
 
 h3 {
-  margin: 1.2rem 0 0;
+  margin: 1rem 0 0;
 }
 ul {
   list-style-type: none;
