@@ -2,7 +2,7 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
     <!-- For testing purposes the following line gives us the word -->
-   <p>Random word: {{randomWord}}</p>
+   <!--<p>Random word: {{randomWord}}</p> -->
   <button class="button" @click="reloadPage" id="reload">New Word</button>
     <p v-if="!helpDisplay"><a @click="toggleHelp">Click Here</a> For instructions for how to play</p>
     <div v-if="helpDisplay" class="help">Guess the WORDLE in 6 tries. <br>
