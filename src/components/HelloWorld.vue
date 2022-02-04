@@ -221,6 +221,19 @@ export default {
         }
       }
     },
+    highlightCell(){
+      //let highlightedRow = this.checkRow()
+      let index = ((this.currentColumn)+(this.currentRow-1)*5).toString()
+      let cellselected = "cell" + index
+      const correctCell = document.getElementById(cellselected)
+      correctCell.classList.add('selected')
+    },
+    removeHighlight(){
+      let index = ((this.currentColumn)+(this.currentRow-1)*5).toString()
+      let cellselected = "cell" + index
+      const correctCell = document.getElementById(cellselected)
+      correctCell.classList.remove('selected')
+    },
     getDefinition(){
       const currentWord = this.randomWord.toLowerCase()
       console.log(currentWord)
@@ -248,17 +261,22 @@ export default {
       }
     },
     keyboardButtonPressed(e){
+      this.removeHighlight()
       let row= this.checkRow()
       
       if (this.currentColumn < 6){
         row.push(e.target.id)
         this.currentColumn += 1
+
+        
+        
       } else{
         if (!this.playerWon){
           alert("Too many letters")
         }
         
       }
+      
  
     },
     getRandomWord(){
@@ -302,6 +320,8 @@ a {
   text-decoration: none;
   overflow: hidden;
   cursor: pointer;
+  border-radius: 5px;
+
 }
 
 .button:after {
@@ -329,27 +349,39 @@ a {
 }
 .grid-container {
   display: grid;
-  grid-template-columns: auto auto auto auto auto;
+  grid-gap: 0.3rem;
+  justify-content: center;
+  grid-template-columns: repeat(5, 4rem);
+  grid-template-rows: repeat(6, 4rem);
   background-color: #2196F3;
   padding: 0.4rem;
-  width:75%;
-  margin: 0 auto
+  width: 22rem;
+  margin: 0 auto;
+  border-radius: 3px;
+  
+
   
 }
 .grid-item {
+  display: flex;
   background-color: rgba(255, 255, 255, 0.8);
   border: 1px solid rgba(0, 0, 0, 0.8);
-  padding: 1.5rem;
   font-size: 1.5rem;
-  text-align: center;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
 
 }
-
+.grid-item.selected{
+ border: 2px solid purple;
+}
 .keyboard {
   display: grid;
   grid-template-columns: auto ;
   background-color: #2196F3;
   padding: 10px;
+  border-radius: 5px;
+
   
 }
 .keyboard-item {
