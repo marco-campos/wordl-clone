@@ -1,5 +1,4 @@
-# wordl-clone
-
+# Clone of the popuplar game Wordle using Vue.js
 ## Project setup
 ```
 npm install
