@@ -104,8 +104,10 @@ BideoWego</a>. Check out <a href="https://www.powerlanguage.co.uk/wordle/">Wordl
 import json from './fiveLetterWords.json'
 import text from './dictionaryFive.json'
 import websterFive from './websterWordsFive.json'
+
 export default {
   name: 'HelloWorld',
+  
   props: {
     msg: String
   },
@@ -272,7 +274,7 @@ export default {
       }
     },
     keyboardButtonPressed(e){
-      this.removeHighlight()
+      //this.removeHighlight()
       let row= this.checkRow()
       
       if (this.currentColumn < 6){
