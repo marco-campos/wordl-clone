@@ -211,6 +211,13 @@ export default {
                   const correctCell = document.getElementById(cellselected)
                   correctCell.style["background-color"] = "rgb(255, 255, 153)"
                 }
+                else{
+                  this.colorKeyboardIncorrect(row[i])
+                  let index = ((i+1)+(this.currentRow-1)*5).toString()
+                  let cellselected = "cell" + index
+                  const correctCell = document.getElementById(cellselected)
+                  correctCell.style["background-color"] = "rgb(190, 202, 209)"
+                }
               }
               alert("Word is not correct")
               this.currentRow += 1
@@ -252,6 +259,10 @@ export default {
     colorKeyboardAlmost(letter){
       const correctLetter = document.getElementById(letter)
       correctLetter.style["background-color"] = "rgb(255, 255, 153)"
+    },
+    colorKeyboardIncorrect(letter){
+      const correctLetter = document.getElementById(letter)
+      correctLetter.style["background-color"] = "rgb(156, 167, 173)"
     },
     backspaceButton(){
       let row = this.checkRow()
