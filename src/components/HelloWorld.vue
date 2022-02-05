@@ -2,8 +2,10 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
     <!-- For testing purposes the following line gives us the word -->
-   <!--<p>Random word: {{randomWord}}</p> -->
+   
+   <Message v-if="alert" :text=message />
   <button class="button" @click="reloadPage" id="reload">New Word</button>
+    
     <p v-if="!helpDisplay"><a @click="toggleHelp">Click Here</a> For instructions for how to play</p>
     <div v-if="helpDisplay" class="help">Guess the WORDLE in 6 tries. <br>
 
@@ -11,6 +13,7 @@ Each guess must be a valid 5 letter word. Hit the enter button to submit.
 <br>
 After each guess, the color of the tiles will change to show how close your guess was to the word. <a @click="toggleHelp">Click here to close</a> 
 </div>
+     <p v-if="showDefintion">Random word: {{randomWord}}</p>
     <p v-if="showDefintion">Definition: {{definition}}</p>
   <div class="grid-container">
     <div class="grid-item" id="cell1">{{rowOne[0]}}</div>
@@ -101,13 +104,16 @@ BideoWego</a>. Check out <a href="https://www.powerlanguage.co.uk/wordle/">Wordl
 </template>
 
 <script>
+import Message from './Message.vue'
 import json from './fiveLetterWords.json'
 import text from './dictionaryFive.json'
 import websterFive from './websterWordsFive.json'
 
 export default {
   name: 'HelloWorld',
-  
+  components: {
+    Message
+  },
   props: {
     msg: String
   },
@@ -129,7 +135,9 @@ export default {
       helpDisplay: false,
       wordBank: text,
       definitions: websterFive,
-      definition: null
+      definition: null,
+      alert:false,
+      message: null
     }
   },
   mounted(){
@@ -142,6 +150,10 @@ export default {
   },
     toggleHelp(){
       this.helpDisplay = !this.helpDisplay
+    },
+    showAlert(message){
+      this.alert = !this.alert
+      this.message = message
     },
     checkRow(){
       let row = null
@@ -171,14 +183,14 @@ export default {
       let row = this.checkRow()
       console.log(row)
       if (row.length !== 5){
-        alert("Word is not long enough")
+        this.showAlert("Word is not long enough.")
       } else {
         let answer = ""
         for (let i = 0; i < row.length; i++){
           answer += row[i]
         }
         if (answer === this.randomWord){
-          alert("You win!")
+          this.showAlert("You win!")
           this.getDefinition()
           this.playerWon = true
           this.showDefintion = true
@@ -193,10 +205,12 @@ export default {
           
         } else{
           if (this.currentRow ===6){
-            alert("You lost :(")
+            this.showAlert("You lost :(")
+            this.getDefinition()
+            this.showDefintion = true
           } else{
             if (!Object.prototype.hasOwnProperty.call(this.wordBank, answer)){
-              alert("Word is not in our word bank")
+              this.showAlert("Word is not in our word bank")
             }
             else{
                 for (let i = 0; i < row.length; i++){
@@ -221,7 +235,7 @@ export default {
                   correctCell.style["background-color"] = "rgb(190, 202, 209)"
                 }
               }
-              alert("Word is not correct")
+              
               this.currentRow += 1
               this.currentColumn =1
             }
@@ -285,7 +299,7 @@ export default {
         
       } else{
         if (!this.playerWon){
-          alert("Too many letters")
+          this.showAlert("Too many letters")
         }
         
       }
@@ -437,14 +451,14 @@ a {
   grid-template-rows: auto auto auto auto auto;
   background-color: #2196F3;
   padding: 0.4rem;
-  width:75%;
+  width:80%;
   margin: 0 auto
   
 }
 .grid-item {
   background-color: rgba(255, 255, 255, 0.8);
   border: 1px solid rgba(0, 0, 0, 0.8);
-  padding: 1rem;
+  padding: 1.2rem;
   font-size: 1.5rem;
   text-align: center;
 
@@ -460,7 +474,7 @@ a {
   .keyboard-item {
   background-color: rgba(255, 255, 255, 0.8);
   border: 1px solid rgba(0, 0, 0, 0.8);
-  padding: 0.5rem;
+  padding: 0.5rem 0rem 0.5rem;
   font-size: 0.8rem;
   text-align: center;
   }
